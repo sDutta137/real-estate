@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Flex, Box, Text, Button } from "@chakra-ui/react";
 
 import Property from "../components/Property";
-import { baseUrl, fetchApi } from "../utils/fetchApi";
 
 export const Banner = ({
   purpose,
@@ -50,7 +49,7 @@ const Home = ({ propertiesForSale, propertiesForRent }) => (
       desc2="and more"
       buttonText="Explore Renting"
       linkName="/search?purpose=for-rent"
-      imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
+      imageUrl="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGFwYXJ0bWVudCUyMGludGVyaW9yfGVufDB8fDB8fHww"
     />
     <Flex flexWrap="wrap">
       {propertiesForRent.slice(0, 6).map((property) => (
@@ -65,7 +64,7 @@ const Home = ({ propertiesForSale, propertiesForRent }) => (
       desc2=" villas and more"
       buttonText="Explore Buying"
       linkName="/search?purpose=for-sale"
-      imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
+      imageUrl="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG9tZSUyMGludGVyaW9yfGVufDB8fDB8fHww"
     />
     <Flex flexWrap="wrap">
       {propertiesForSale.slice(0, 6).map((property) => (
@@ -76,18 +75,24 @@ const Home = ({ propertiesForSale, propertiesForRent }) => (
 );
 
 export async function getStaticProps() {
-  const propertyForSale = await fetchApi(
-    `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`
-  );
-  const propertyForRent = await fetchApi(
-    `${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`
-  );
+  let propertiesForSale = [];
+  let propertiesForRent = [];
+
+  try {
+    // Fetch properties for sale and for rent
+    // This is just a placeholder, replace it with your actual fetch code
+    propertiesForSale = await fetchPropertiesForSale();
+    propertiesForRent = await fetchPropertiesForRent();
+  } catch (error) {
+    console.error("Failed to fetch properties:", error);
+  }
 
   return {
     props: {
-      propertiesForSale: propertyForSale?.hits,
-      propertiesForRent: propertyForRent?.hits,
+      propertiesForSale,
+      propertiesForRent,
     },
+    revalidate: 1, // Re-generate page when request comes in
   };
 }
 
