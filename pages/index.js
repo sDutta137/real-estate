@@ -3,6 +3,10 @@ import Image from "next/image";
 import { Flex, Box, Text, Button } from "@chakra-ui/react";
 
 import Property from "../components/Property";
+import {
+  fetchPropertiesForRent,
+  fetchPropertiesForSale,
+} from "../utils/fetchApi";
 
 export const Banner = ({
   purpose,
@@ -52,7 +56,7 @@ const Home = ({ propertiesForSale, propertiesForRent }) => (
       imageUrl="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGFwYXJ0bWVudCUyMGludGVyaW9yfGVufDB8fDB8fHww"
     />
     <Flex flexWrap="wrap">
-      {propertiesForRent.slice(0, 6).map((property) => (
+      {propertiesForRent?.slice(0, 6).map((property) => (
         <Property property={property} key={property.id} />
       ))}
     </Flex>
@@ -67,7 +71,7 @@ const Home = ({ propertiesForSale, propertiesForRent }) => (
       imageUrl="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG9tZSUyMGludGVyaW9yfGVufDB8fDB8fHww"
     />
     <Flex flexWrap="wrap">
-      {propertiesForSale.slice(0, 6).map((property) => (
+      {propertiesForSale?.slice(0, 6).map((property) => (
         <Property property={property} key={property.id} />
       ))}
     </Flex>
