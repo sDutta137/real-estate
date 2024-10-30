@@ -44,6 +44,14 @@ export default function SearchFilters() {
     }
   }, [searchTerm]);
 
+  useEffect(() => {
+    // Ensure consistent state and effect values between server and client rendering
+    setSearchTerm('');
+    setLocationData();
+    setShowLocations(false);
+    setLoading(false);
+  }, []);
+
   return (
     <Flex bg='gray.100' p='4' justifyContent='center' flexWrap='wrap'>
       {filters?.map((filter) => (
